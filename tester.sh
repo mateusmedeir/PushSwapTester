@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PUSH_SWAP_PATH="../"
+
 BLUE="\033[1;34m"
 GREEN="\033[1;32m"
 RED="\033[1;31m"
@@ -11,7 +13,7 @@ OK=" ${GREEN}[ OK ]${RESET}"
 KO=" ${RED}[ KO ]${RESET}"
 
 
-make -C ../
+make -C ${PUSH_SWAP_PATH}
 mkdir outputs
 clear
 
@@ -24,28 +26,29 @@ printf "\n${BLUE}============== ${BOLD}PUSH SWAP TESTER${BLUE} ==============${R
 #========================= MANDATORY =========================#
 
 
-#TEST 1
-
+#BASIC TESTS
 
 index=0
 size=$(ls -l inputs/ | wc -l)
 
 while [ $index -lt `expr $size - 1` ]
 do
-	../push_swap $(cat inputs/test-$index) 1> outputs/test-$index-result.txt 2> /dev/null
-	cat outputs/test-$index-result.txt | ../checker $(cat inputs/test-$index) 1> outputs/test-$index-check.txt
+	${PUSH_SWAP_PATH}push_swap $(cat inputs/test-$index) 1> outputs/test-$index-result.txt 2> /dev/null
+	cat outputs/test-$index-result.txt | wc -l 1> outputs/test-$index-instructions.txt
+	cat outputs/test-$index-result.txt | ${PUSH_SWAP_PATH}checker $(cat inputs/test-$index) 1> outputs/test-$index-check.txt
 
 	printf "\nTest $index: "
 
 	if [ $(cat outputs/test-$index-check.txt | grep "OK" | wc -l) != 0 ]
 	then
-    		printf "${OK}"
+		printf "${OK}: ${BOLD}${YELLOW}$(cat outputs/test-$index-instructions.txt)${RESET} instructions"
 	else
     		printf "${KO}"
 	fi
 	index=`expr $index + 1`
-	printf "\n"
 done
+
+printf "\n"
 
 printf "\n${BLUE}==============================================${RESET}\n\n"
 printf "${OK} = passed the test\n"
