@@ -25,19 +25,21 @@ printf "\n${BLUE}============== ${BOLD}PUSH SWAP TESTER${BLUE} ==============${R
 
 #========================= MANDATORY =========================#
 
+printf "\n${BOLD}BASIC INPUTS${RESET}\n"
 
-#BASIC TESTS
+
 
 index=0
-size=$(ls -l inputs/ | wc -l)
+size=$(ls -l inputs/basic/ | wc -l)
+
 
 while [ $index -lt `expr $size - 1` ]
 do
-	${PUSH_SWAP_PATH}push_swap $(cat inputs/test-$index) 1> outputs/test-$index-result.txt 2> /dev/null
+	${PUSH_SWAP_PATH}push_swap $(cat inputs/basic/test-$index) 1> outputs/test-$index-result.txt 2> /dev/null
 	cat outputs/test-$index-result.txt | wc -l 1> outputs/test-$index-instructions.txt
-	cat outputs/test-$index-result.txt | ${PUSH_SWAP_PATH}checker $(cat inputs/test-$index) 1> outputs/test-$index-check.txt
+	cat outputs/test-$index-result.txt | ${PUSH_SWAP_PATH}checker $(cat inputs/basic/test-$index) 1> outputs/test-$index-check.txt
 
-	printf "\nTest $index: "
+	printf "\nTest $index:"
 
 	if [ $(cat outputs/test-$index-check.txt | grep "OK" | wc -l) != 0 ]
 	then
@@ -47,6 +49,36 @@ do
 	fi
 	index=`expr $index + 1`
 done
+
+
+
+printf "\n${BOLD}100 INPUTS${RESET}\n"
+
+
+
+index=0
+size=$(ls -l inputs/100 | wc -l)
+
+
+while [ $index -lt `expr $size - 1` ]
+do
+        ${PUSH_SWAP_PATH}push_swap $(cat inputs/100/test-$index) 1> outputs/test-$index-result.txt 2> /dev/null
+        cat outputs/test-$index-result.txt | wc -l 1> outputs/test-$index-instructions.txt
+        cat outputs/test-$index-result.txt | ${PUSH_SWAP_PATH}checker $(cat inputs/100/test-$index) 1> outputs/test-$index-check.txt
+
+        printf "\nTest $index:"
+
+        if [ $(cat outputs/100/test-$index-check.txt | grep "OK" | wc -l) != 0 ]
+        then
+                printf "${OK}: ${BOLD}${YELLOW}$(cat outputs/100/test-$index-instructions.txt)${RESET} instructions"
+        else
+                printf "${KO}"
+        fi
+        index=`expr $index + 1`
+done
+
+
+
 
 printf "\n"
 
