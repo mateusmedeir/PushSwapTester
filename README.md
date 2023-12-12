@@ -31,3 +31,7 @@ Run the script inside the repository.
 ```shell
 ./tester.sh
 ```
+
+### Output
+
+<img src="screenshot.png" width="50%">
