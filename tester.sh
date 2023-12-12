@@ -12,13 +12,13 @@ RESET="\033[0m"
 OK=" ${GREEN}[ OK ]${RESET}"
 KO=" ${RED}[ KO ]${RESET}"
 
-paths=("3-basic" "5-basic")
+paths=($(ls -v inputs))
 
 make -C ${PUSH_SWAP_PATH}
 mkdir outputs
 
 counter=0
-size_inputs=$(ls -l inputs | grep -v '^total' | wc -l)
+size_inputs=$(ls -vl inputs | grep -v '^total' | wc -l)
 
 while [ $counter -lt $size_inputs ]
 do
@@ -32,11 +32,6 @@ clear
 
 
 printf "\n${BLUE}============== ${BOLD}PUSH SWAP TESTER${BLUE} ==============${RESET}\n"
-
-
-#========================= MANDATORY =========================#
-
-paths=("3-basic" "5-basic")
 
 counter=0
 
